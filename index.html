@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=2" />
+  <title>背词 · 考研英语</title>
+  <meta name="description" content="考研英语背词：真题词表、六箱调度、三档自评。数据只存在你自己的手机上。" />
+  <meta name="theme-color" content="#0f1115" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="背词" />
+  <meta name="format-detection" content="telephone=no" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="./icons/icon-180.png" />
+  <link rel="icon" type="image/png" href="./icons/icon-192.png" />
+  <link rel="stylesheet" href="./assets/app.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="hd">
+      <span id="hd-sub" class="hd-sub">—</span>
+      <b id="hd-title">背词</b>
+      <span id="home-streak" class="hd-badge">🔥 0</span>
+    </header>
+    <div class="bar"><i id="prog"></i></div>
+
+    <!-- 今日 -->
+    <main id="view-home" class="view">
+      <div id="backup-banner" class="banner" hidden></div>
+
+      <section class="panel">
+        <div class="nums">
+          <div><b id="home-new">0</b><span>新词</span></div>
+          <div><b id="home-rev">0</b><span>复习</span></div>
+        </div>
+        <div class="meta">
+          已学 <b id="home-learned">0</b> · 掌握 <b id="home-mastered">0</b> · XP <b id="home-xp">0</b>
+        </div>
+        <div class="dim" id="home-cap">—</div>
+        <button class="btn-primary" id="btn-start">开始今天的卡片</button>
+        <div class="hint-line">第一关 5 张 = 今天打卡成功</div>
+      </section>
+
+      <section class="panel small">
+        <p class="dim">复习先易后难；忘了不扣分，只多出现几次。</p>
+      </section>
+    </main>
+
+    <!-- 卡片 -->
+    <main id="view-card" class="view" hidden>
+      <div id="card-body" class="card-body">
+        <div class="card-mode" id="card-mode">新词</div>
+        <div class="word" id="card-word">—</div>
+        <div class="freq" id="card-freq"></div>
+
+        <div class="card-back" id="card-back" hidden>
+          <div class="def" id="card-def">—</div>
+          <div class="ex" id="card-ex" hidden></div>
+        </div>
+
+        <div class="tools">
+          <button class="chip" id="btn-tts">🔊 发音</button>
+          <button class="chip" id="btn-hint">给点提示</button>
+        </div>
+
+        <button class="btn-primary" id="btn-flip">翻面看释义</button>
+
+        <div class="grades" id="grades" hidden>
+          <button data-g="3" class="g-ok">认识<small>+10 XP</small></button>
+          <button data-g="2" class="g-mid">模糊<small>+6 XP</small></button>
+          <button data-g="1" class="g-bad">忘了<small>+3 XP</small></button>
+        </div>
+      </div>
+
+      <div id="gate" class="gate" hidden>
+        <div class="gate-emoji">✅</div>
+        <div class="gate-title">第一关完成</div>
+        <div class="gate-sub">今天已打卡 · <span id="gate-streak">🔥 0 天</span></div>
+        <p class="dim">想继续是赚到的，不是欠着的。</p>
+        <button class="btn-primary" id="btn-go">继续学习</button>
+        <button class="btn-ghost" id="btn-stop">今天到这</button>
+      </div>
+    </main>
+
+    <!-- 设置 -->
+    <main id="view-set" class="view" hidden>
+      <section class="panel">
+        <h3>强度</h3>
+        <label class="row">档位
+          <select id="set-intensity">
+            <option value="light">轻 · 15 新词 / 100 复习 / 15 分钟</option>
+            <option value="std">标准 · 30 新词 / 180 复习 / 25 分钟</option>
+            <option value="hard">猛 · 45 新词 / 270 复习 / 40 分钟</option>
+          </select>
+        </label>
+        <label class="row">考试日期 <input type="date" id="set-exam" /></label>
+        <div class="dim" id="set-cap">—</div>
+      </section>
+
+      <section class="panel">
+        <h3>数据</h3>
+        <label class="row">已学 <span id="set-learned">0</span></label>
+        <label class="row">掌握 <span id="set-mastered">0</span></label>
+        <label class="row">词库总量 <span id="set-total">—</span></label>
+        <label class="row">XP <span id="set-xp">0</span></label>
+        <label class="row">连续天数 <span id="set-streak">0</span></label>
+        <label class="row">上次备份 <span id="set-export-age">从未</span></label>
+        <div class="btn-row">
+          <button class="btn-ghost" id="btn-export">导出备份</button>
+          <button class="btn-ghost" id="btn-import">恢复备份</button>
+        </div>
+        <input type="file" id="file-import" accept="application/json" hidden />
+        <button class="btn-ghost danger" id="btn-reset">清空进度</button>
+      </section>
+    </main>
+
+    <nav class="tabbar" id="tabbar">
+      <button data-view="home">今日</button>
+      <button data-view="set">设置</button>
+    </nav>
+  </div>
+
+  <div id="toast-root" class="toast-root" role="status" aria-live="polite"></div>
+  <div id="boot" class="boot">词库载入中…</div>
+  <div id="boot-errors" hidden></div>
+
+  <script>
+    window.addEventListener('error', function (e) {
+      var box = document.getElementById('boot-errors');
+      if (!box) return;
+      box.hidden = false;
+      box.textContent += '[error] ' + (e.message || '') + ' @ ' + (e.filename || '') + ':' + (e.lineno || 0) + '\n';
+    });
+    window.addEventListener('unhandledrejection', function (e) {
+      var box = document.getElementById('boot-errors');
+      if (!box) return;
+      box.hidden = false;
+      box.textContent += '[reject] ' + (e.reason && (e.reason.stack || e.reason.message) || e.reason) + '\n';
+    });
+  </script>
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
