@@ -4,12 +4,15 @@
   --safe-b:env(safe-area-inset-bottom,0px);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--txt);
   font:16px/1.55 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
   overscroll-behavior-y:contain}
 body{padding:0 0 var(--safe-b)}
 
-.app{max-width:560px;margin:0 auto;padding:14px 16px 84px;min-height:100%;display:flex;flex-direction:column}
+.app{max-width:560px;margin:0 auto;
+  padding:calc(10px + env(safe-area-inset-top,0px)) 16px 84px;
+  min-height:100%;display:flex;flex-direction:column}
 .hd{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:13px;color:var(--dim)}
 .hd b{color:var(--txt);font-size:16px;font-weight:650}
 .hd-badge{font-size:13px;color:var(--dim)}
