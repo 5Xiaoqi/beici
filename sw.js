@@ -2,7 +2,7 @@
  * 目标：离线可开、启动更快。学习数据在 localStorage，不经过网络。
  */
 
-const VERSION = 'beici-v0.1.0';
+const VERSION = 'beici-v0.1.1';
 const SHELL = [
   './index.html',
   './manifest.webmanifest',
